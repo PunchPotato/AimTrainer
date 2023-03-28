@@ -4,14 +4,22 @@ from pygame.math import Vector2
 
 width = 1920
 height = 1080
-count_mouse_click = 0
-hit = 0
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("AimTrainer")
-screen.fill("White")
 
 pygame.init()
 clock = pygame.time.Clock()
+
+
+circle_Load = pygame.image.load("targets/working target.png")
+drawn_circle = pygame.transform.scale(circle_Load, (55, 55))
+count_mouse_click = 0
+hit = 0
+screen = pygame.display.set_mode((width, height))
+screen.fill("White")
+bg = pygame.image.load("background/wood_surface_texture_118443_1920x1080.jpg").convert_alpha()
+pygame.display.set_caption("AimTrainer")
+black = (0, 0, 0)
+blue = (0, 0, 128)
+font = pygame.font.Font('freesansbold.ttf', 32)
 
 
 class CIRCLE:
@@ -25,33 +33,33 @@ class CIRCLE:
         global hit
         global count_mouse_click
         if hit and count_mouse_click >= 1:
-            accuracy = hit / count_mouse_click * 100
-            print(accuracy)
-        else:
-            print("eat shit")
-        self.circle = pygame.draw.circle(screen, "Red", (self.x, self.y), 25)
+            accuracy = round(hit / count_mouse_click * 100, 2)
+            text = font.render(str(f"Your Accuracy Is: {accuracy}"), True, black)
+            text_rect = text.get_rect()
+            text_rect.center = (width // 2, height // 2)
+            screen.blit(text, text_rect)
 
+        screen.blit(drawn_circle, (self.x, self.y))
 
     def randomize(self):
-        self.x = random.randint(0, 1870)
-        self.y = random.randint(0, 1030)
+        self.x = random.randint(50, 1870)
+        self.y = random.randint(50, 1030)
         self.pos = Vector2(self.x, self.y)
 
     def check_click(self):
         mouse_pos = pygame.mouse.get_pos()
         global hit
         global count_mouse_click
-        # accuracy = count_mouse_click / hit * 100
+        global drawn_circle
+        drawn_circle_rect = screen.blit(drawn_circle, (self.x, self.y))
         left_click = pygame.mouse.get_pressed()[0]
-        circle_click = pygame.draw.circle(screen, "Red", (self.x, self.y), 25)
+        circle_click = drawn_circle_rect
         if left_click and circle_click.collidepoint(mouse_pos):
             count_mouse_click += 1
             hit += 1
-            print(count_mouse_click)
             self.__init__()
         else:
             count_mouse_click += 1
-            print(count_mouse_click)
             return False
 
 
@@ -65,7 +73,8 @@ while True:
             if event.button == 1:
                 circle.check_click()
 
-    screen.fill((0, 0, 0))
+    screen.blit(bg, (0, 0))
     circle.draw_circle()
     pygame.display.update()
     clock.tick(120)
+
