@@ -8,7 +8,6 @@ height = 1080
 pygame.init()
 clock = pygame.time.Clock()
 
-
 circle_Load = pygame.image.load("targets/working target.png")
 drawn_circle = pygame.transform.scale(circle_Load, (55, 55))
 count_mouse_click = 0
@@ -19,7 +18,8 @@ bg = pygame.image.load("background/wood_surface_texture_118443_1920x1080.jpg").c
 pygame.display.set_caption("AimTrainer")
 black = (0, 0, 0)
 blue = (0, 0, 128)
-font = pygame.font.Font('freesansbold.ttf', 32)
+pygame.font.get_fonts()
+font = pygame.font.SysFont("consolas", 40, bold=True)
 
 
 class CIRCLE:
@@ -32,12 +32,13 @@ class CIRCLE:
     def draw_circle(self):
         global hit
         global count_mouse_click
+        accuracy = 0
         if hit and count_mouse_click >= 1:
-            accuracy = round(hit / count_mouse_click * 100, 2)
-            text = font.render(str(f"Your Accuracy Is: {accuracy}"), True, black)
-            text_rect = text.get_rect()
-            text_rect.center = (width // 2, height // 2)
-            screen.blit(text, text_rect)
+            accuracy = round(hit / count_mouse_click * 100, 1)
+        text = font.render(str(f"Your Accuracy Is: {accuracy}%"), True, black)
+        text_rect = text.get_rect()
+        text_rect.center = (width // 2, height // 15)
+        screen.blit(text, text_rect)
 
         screen.blit(drawn_circle, (self.x, self.y))
 
@@ -64,7 +65,6 @@ class CIRCLE:
 
 
 circle = CIRCLE()
-circle.draw_circle()
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
