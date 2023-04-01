@@ -18,7 +18,7 @@ screen = pygame.display.set_mode((width, height))
 screen.fill("White")
 bg = pygame.image.load("background/wood_surface_texture_118443_1920x1080.jpg").convert_alpha()
 pygame.display.set_caption("AimTrainer")
-black = (0, 0, 0)
+white = (255, 255, 255)
 blue = (0, 0, 128)
 pygame.font.get_fonts()
 
@@ -41,7 +41,7 @@ def play():
             accuracy = 0
             if hit and count_mouse_click >= 1:
                 accuracy = round(hit / count_mouse_click * 100, 1)
-            text = get_font(45).render(str(f"Your Accuracy Is: {accuracy}%"), True, black)
+            text = get_font(45).render(str(f"Your Accuracy Is: {accuracy}%"), True, white)
             text_rect = text.get_rect()
             text_rect.center = (width // 2, height // 15)
             screen.blit(text, text_rect)
@@ -50,7 +50,7 @@ def play():
 
         def randomize(self):
             self.x = random.randint(50, 1230)
-            self.y = random.randint(50, 670)
+            self.y = random.randint(100, 670)
             self.pos = Vector2(self.x, self.y)
 
         def check_click(self):
@@ -75,11 +75,7 @@ def play():
 
         screen.fill("black")
 
-        PLAY_TEXT = get_font(45).render("This is the PLAY screen.", True, "White")
-        PLAY_RECT = PLAY_TEXT.get_rect(center=(640, 260))
-        screen.blit(PLAY_TEXT, PLAY_RECT)
-
-        PLAY_BACK = Button(image=None, pos=(640, 460),
+        PLAY_BACK = Button(image=None, pos=(100, 50),
                            text_input="BACK", font=get_font(75), base_color="White", hovering_color="Green")
 
         PLAY_BACK.changeColor(PLAY_MOUSE_POS)
@@ -95,6 +91,7 @@ def play():
                     main_menu()
 
         screen.blit(bg, (0, 0))
+        PLAY_BACK.update(screen)
         circle.draw_circle()
         pygame.display.update()
         clock.tick(120)
