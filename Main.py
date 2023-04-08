@@ -21,6 +21,7 @@ pygame.display.set_caption("AimTrainer")
 white = (255, 255, 255)
 blue = (0, 0, 128)
 pygame.font.get_fonts()
+current_time = 0
 
 
 def get_font(size):
@@ -41,9 +42,9 @@ def play():
             accuracy = 0
             if hit and count_mouse_click >= 1:
                 accuracy = round(hit / count_mouse_click * 100, 1)
-            text = get_font(45).render(str(f"Your Accuracy Is: {accuracy}%"), True, white)
+            text = get_font(75).render(str(f"ACCURACY: {accuracy}%"), True, white)
             text_rect = text.get_rect()
-            text_rect.center = (width // 2, height // 15)
+            text_rect.center = (width // 2, height // 14)
             screen.blit(text, text_rect)
 
             screen.blit(drawn_circle, (self.x, self.y))
@@ -67,7 +68,6 @@ def play():
                 self.__init__()
             else:
                 count_mouse_click += 1
-                return False
 
     circle = CIRCLE()
     while True:
@@ -81,6 +81,8 @@ def play():
         PLAY_BACK.changeColor(PLAY_MOUSE_POS)
         PLAY_BACK.update(screen)
 
+        current_time = pygame.time.get_ticks()
+        global count_mouse_click
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
@@ -89,12 +91,17 @@ def play():
                     circle.check_click()
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
+            if current_time % 200 == 0:
+                circle.check_click()
+                circle.randomize()
+                print(current_time)
+
 
         screen.blit(bg, (0, 0))
         PLAY_BACK.update(screen)
         circle.draw_circle()
         pygame.display.update()
-        clock.tick(120)
+        clock.tick(60)
 
 
 def options():
