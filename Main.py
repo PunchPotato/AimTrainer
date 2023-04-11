@@ -29,6 +29,207 @@ def get_font(size):
 
 
 def play():
+        def difficulty_menu():
+            while True:
+                screen.blit(bg, (0, 0))
+
+                DMENU_MOUSE_POS = pygame.mouse.get_pos()
+
+                DMENU_TEXT = get_font(100).render("DIFFICULTY", True, "#b68f40")
+                DMENU_RECT = DMENU_TEXT.get_rect(center=(640, 100))
+
+                EASY_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 250),
+                                     text_input="EASY", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+                NORMAL_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 400),
+                                       text_input="NORMAL", font=get_font(75), base_color="#d7fcd4",
+                                       hovering_color="White")
+                HARD_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 550),
+                                     text_input="HARD", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+
+                screen.blit(DMENU_TEXT, DMENU_RECT)
+
+                for button in [EASY_BUTTON, NORMAL_BUTTON, HARD_BUTTON]:
+                    button.changeColor(DMENU_MOUSE_POS)
+                    button.update(screen)
+
+                for event in pygame.event.get():
+                    if event.type == pygame.QUIT:
+                        pygame.quit()
+                        sys.exit()
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        if EASY_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                            easy()
+                        if NORMAL_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                            normal()
+                        if HARD_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                            hard()
+
+                pygame.display.update()
+
+        difficulty_menu()
+
+
+def easy():
+    class CIRCLE:
+
+        def __init__(self):
+            self.pos = None
+            self.y = None
+            self.x = None
+            self.randomize()
+
+        def draw_circle(self):
+            global hit
+            global count_mouse_click
+            accuracy = 0
+            if hit and count_mouse_click >= 1:
+                accuracy = round(hit / count_mouse_click * 100, 1)
+            text = get_font(75).render(str(f"ACCURACY: {accuracy}%"), True, white)
+            text_rect = text.get_rect()
+            text_rect.center = (width // 2, height // 14)
+            screen.blit(text, text_rect)
+
+            screen.blit(drawn_circle, (self.x, self.y))
+
+        def randomize(self):
+            self.x = random.randint(50, 1230)
+            self.y = random.randint(100, 670)
+            self.pos = Vector2(self.x, self.y)
+
+        def check_click(self):
+            mouse_pos = pygame.mouse.get_pos()
+            global hit
+            global count_mouse_click
+            global drawn_circle
+            drawn_circle_rect = screen.blit(drawn_circle, (self.x, self.y))
+            left_click = pygame.mouse.get_pressed()[0]
+            circle_click = drawn_circle_rect
+            if left_click and circle_click.collidepoint(mouse_pos):
+                count_mouse_click += 1
+                hit += 1
+                self.__init__()
+            else:
+                count_mouse_click += 1
+
+    global count_mouse_click
+    global current_time
+    circle = CIRCLE()
+    while True:
+        PLAY_MOUSE_POS = pygame.mouse.get_pos()
+
+        screen.fill("black")
+
+        PLAY_BACK = Button(image=None, pos=(100, 50),
+                           text_input="BACK", font=get_font(75), base_color="White", hovering_color="Green")
+
+        PLAY_BACK.changeColor(PLAY_MOUSE_POS)
+        PLAY_BACK.update(screen)
+
+        print(current_time)
+        current_time += 1
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    circle.check_click()
+                    circle.randomize()
+                    current_time = 1
+                if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
+                    main_menu()
+        if current_time % 200 == 0:
+            circle.check_click()
+            circle.randomize()
+            current_time = 1
+
+        screen.blit(bg, (0, 0))
+        PLAY_BACK.update(screen)
+        circle.draw_circle()
+        pygame.display.update()
+        clock.tick(60)
+
+
+def normal():
+    class CIRCLE:
+
+        def __init__(self):
+            self.pos = None
+            self.y = None
+            self.x = None
+            self.randomize()
+
+        def draw_circle(self):
+            global hit
+            global count_mouse_click
+            accuracy = 0
+            if hit and count_mouse_click >= 1:
+                accuracy = round(hit / count_mouse_click * 100, 1)
+            text = get_font(75).render(str(f"ACCURACY: {accuracy}%"), True, white)
+            text_rect = text.get_rect()
+            text_rect.center = (width // 2, height // 14)
+            screen.blit(text, text_rect)
+
+            screen.blit(drawn_circle, (self.x, self.y))
+
+        def randomize(self):
+            self.x = random.randint(50, 1230)
+            self.y = random.randint(100, 670)
+            self.pos = Vector2(self.x, self.y)
+
+        def check_click(self):
+            mouse_pos = pygame.mouse.get_pos()
+            global hit
+            global count_mouse_click
+            global drawn_circle
+            drawn_circle_rect = screen.blit(drawn_circle, (self.x, self.y))
+            left_click = pygame.mouse.get_pressed()[0]
+            circle_click = drawn_circle_rect
+            if left_click and circle_click.collidepoint(mouse_pos):
+                count_mouse_click += 1
+                hit += 1
+                self.__init__()
+            else:
+                count_mouse_click += 1
+
+    global count_mouse_click
+    global current_time
+    circle = CIRCLE()
+    while True:
+        PLAY_MOUSE_POS = pygame.mouse.get_pos()
+
+        screen.fill("black")
+
+        PLAY_BACK = Button(image=None, pos=(100, 50),
+                           text_input="BACK", font=get_font(75), base_color="White", hovering_color="Green")
+
+        PLAY_BACK.changeColor(PLAY_MOUSE_POS)
+        PLAY_BACK.update(screen)
+
+        print(current_time)
+        current_time += 1
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                exit()
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    circle.check_click()
+                    circle.randomize()
+                    current_time = 1
+                if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
+                    main_menu()
+        if current_time % 140 == 0:
+            circle.check_click()
+            circle.randomize()
+            current_time = 1
+
+        screen.blit(bg, (0, 0))
+        PLAY_BACK.update(screen)
+        circle.draw_circle()
+        pygame.display.update()
+        clock.tick(60)
+
+
+def hard():
     class CIRCLE:
 
         def __init__(self):
