@@ -21,7 +21,7 @@ pygame.display.set_caption("AimTrainer")
 white = (255, 255, 255)
 blue = (0, 0, 128)
 pygame.font.get_fonts()
-current_time = 0
+current_time = pygame.time.get_ticks()
 
 
 def get_font(size):
@@ -30,6 +30,7 @@ def get_font(size):
 
 def play():
     class CIRCLE:
+
         def __init__(self):
             self.pos = None
             self.y = None
@@ -69,6 +70,8 @@ def play():
             else:
                 count_mouse_click += 1
 
+    global count_mouse_click
+    global current_time
     circle = CIRCLE()
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
@@ -81,21 +84,20 @@ def play():
         PLAY_BACK.changeColor(PLAY_MOUSE_POS)
         PLAY_BACK.update(screen)
 
-        current_time = pygame.time.get_ticks()
-        global count_mouse_click
+        print(current_time)
+        current_time += 1
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     circle.check_click()
+                    circle.randomize()
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
-            if current_time % 200 == 0:
-                circle.check_click()
-                circle.randomize()
-                print(current_time)
-
+        if current_time % 160 == 0:
+            circle.check_click()
+            circle.randomize()
 
         screen.blit(bg, (0, 0))
         PLAY_BACK.update(screen)
