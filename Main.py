@@ -21,8 +21,8 @@ pygame.display.set_caption("AimTrainer")
 white = (255, 255, 255)
 blue = (0, 0, 128)
 pygame.font.get_fonts()
+current_time_reset = pygame.time.get_ticks()
 current_time = pygame.time.get_ticks()
-
 
 def get_font(size):
     return pygame.font.SysFont("consolas", size, bold=True)
@@ -81,13 +81,15 @@ def easy():
         def draw_circle(self):
             global hit
             global count_mouse_click
-            accuracy = 0
+            easy_accuracy = 0
             if hit and count_mouse_click >= 1:
-                accuracy = round(hit / count_mouse_click * 100, 1)
-            text = get_font(75).render(str(f"ACCURACY: {accuracy}%"), True, white)
+                easy_accuracy = round(hit / count_mouse_click * 100, 1)
+            text = get_font(75).render(str(f"ACCURACY: {easy_accuracy}%"), True, white)
             text_rect = text.get_rect()
             text_rect.center = (width // 2, height // 14)
             screen.blit(text, text_rect)
+            if easy_accuracy <= 50 and current_time >= 199:
+                end_screen()
 
             screen.blit(drawn_circle, (self.x, self.y))
 
@@ -113,6 +115,7 @@ def easy():
 
     global count_mouse_click
     global current_time
+    global current_time_reset
     circle = CIRCLE()
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
@@ -125,8 +128,9 @@ def easy():
         PLAY_BACK.changeColor(PLAY_MOUSE_POS)
         PLAY_BACK.update(screen)
 
-        print(current_time)
+        current_time_reset += 1
         current_time += 1
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
@@ -134,13 +138,13 @@ def easy():
                 if event.button == 1:
                     circle.check_click()
                     circle.randomize()
-                    current_time = 1
+                    current_time_reset = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
-        if current_time % 200 == 0:
+        if current_time_reset % 200 == 0:
             circle.check_click()
             circle.randomize()
-            current_time = 1
+            current_time_reset = 1
 
         screen.blit(bg, (0, 0))
         PLAY_BACK.update(screen)
@@ -161,13 +165,15 @@ def normal():
         def draw_circle(self):
             global hit
             global count_mouse_click
-            accuracy = 0
+            normal_accuracy = 0
             if hit and count_mouse_click >= 1:
-                accuracy = round(hit / count_mouse_click * 100, 1)
-            text = get_font(75).render(str(f"ACCURACY: {accuracy}%"), True, white)
+                normal_accuracy = round(hit / count_mouse_click * 100, 1)
+            text = get_font(75).render(str(f"ACCURACY: {normal_accuracy}%"), True, white)
             text_rect = text.get_rect()
             text_rect.center = (width // 2, height // 14)
             screen.blit(text, text_rect)
+            if normal_accuracy <= 60 and current_time >= 299:
+                end_screen()
 
             screen.blit(drawn_circle, (self.x, self.y))
 
@@ -192,6 +198,7 @@ def normal():
                 count_mouse_click += 1
 
     global count_mouse_click
+    global current_time_reset
     global current_time
     circle = CIRCLE()
     while True:
@@ -205,8 +212,9 @@ def normal():
         PLAY_BACK.changeColor(PLAY_MOUSE_POS)
         PLAY_BACK.update(screen)
 
-        print(current_time)
+        current_time_reset += 1
         current_time += 1
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
@@ -214,13 +222,13 @@ def normal():
                 if event.button == 1:
                     circle.check_click()
                     circle.randomize()
-                    current_time = 1
+                    current_time_reset = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
-        if current_time % 140 == 0:
+        if current_time_reset % 140 == 0:
             circle.check_click()
             circle.randomize()
-            current_time = 1
+            current_time_reset = 1
 
         screen.blit(bg, (0, 0))
         PLAY_BACK.update(screen)
@@ -241,13 +249,15 @@ def hard():
         def draw_circle(self):
             global hit
             global count_mouse_click
-            accuracy = 0
+            hard_accuracy = 0
             if hit and count_mouse_click >= 1:
-                accuracy = round(hit / count_mouse_click * 100, 1)
-            text = get_font(75).render(str(f"ACCURACY: {accuracy}%"), True, white)
+                hard_accuracy = round(hit / count_mouse_click * 100, 1)
+            text = get_font(75).render(str(f"ACCURACY: {hard_accuracy}%"), True, white)
             text_rect = text.get_rect()
             text_rect.center = (width // 2, height // 14)
             screen.blit(text, text_rect)
+            if hard_accuracy <= 60 and current_time >= 399:
+                end_screen()
 
             screen.blit(drawn_circle, (self.x, self.y))
 
@@ -272,6 +282,7 @@ def hard():
                 count_mouse_click += 1
 
     global count_mouse_click
+    global current_time_reset
     global current_time
     circle = CIRCLE()
     while True:
@@ -285,8 +296,9 @@ def hard():
         PLAY_BACK.changeColor(PLAY_MOUSE_POS)
         PLAY_BACK.update(screen)
 
-        print(current_time)
+        current_time_reset += 1
         current_time += 1
+
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 exit()
@@ -294,13 +306,13 @@ def hard():
                 if event.button == 1:
                     circle.check_click()
                     circle.randomize()
-                    current_time = 1
+                    current_time_reset = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
-        if current_time % 50 == 0:
+        if current_time_reset % 60 == 0:
             circle.check_click()
             circle.randomize()
-            current_time = 1
+            current_time_reset = 1
 
         screen.blit(bg, (0, 0))
         PLAY_BACK.update(screen)
@@ -370,6 +382,33 @@ def main_menu():
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.quit()
                     sys.exit()
+
+        pygame.display.update()
+
+
+def end_screen():
+    while True:
+        END_SCREEN_MOUSE_POS = pygame.mouse.get_pos()
+
+        screen.fill("white")
+
+        OPTIONS_TEXT = get_font(45).render("This is the END screen.", True, "Black")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(200, 260))
+        screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
+
+        OPTIONS_BACK = Button(image=None, pos=(640, 460),
+                              text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
+
+        OPTIONS_BACK.changeColor(END_SCREEN_MOUSE_POS)
+        OPTIONS_BACK.update(screen)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if OPTIONS_BACK.checkForInput(END_SCREEN_MOUSE_POS):
+                    main_menu()
 
         pygame.display.update()
 
