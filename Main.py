@@ -93,11 +93,13 @@ def play():
                 if event.button == 1:
                     circle.check_click()
                     circle.randomize()
+                    current_time = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
-        if current_time % 160 == 0:
+        if current_time % 50 == 0:
             circle.check_click()
             circle.randomize()
+            current_time = 1
 
         screen.blit(bg, (0, 0))
         PLAY_BACK.update(screen)
