@@ -24,49 +24,50 @@ pygame.font.get_fonts()
 current_time_reset = pygame.time.get_ticks()
 current_time = pygame.time.get_ticks()
 
+
 def get_font(size):
     return pygame.font.SysFont("consolas", size, bold=True)
 
 
 def play():
-        def difficulty_menu():
-            while True:
-                screen.blit(bg, (0, 0))
+    def difficulty_menu():
+        while True:
+            screen.blit(bg, (0, 0))
 
-                DMENU_MOUSE_POS = pygame.mouse.get_pos()
+            DMENU_MOUSE_POS = pygame.mouse.get_pos()
 
-                DMENU_TEXT = get_font(100).render("DIFFICULTY", True, "#b68f40")
-                DMENU_RECT = DMENU_TEXT.get_rect(center=(640, 100))
+            DMENU_TEXT = get_font(100).render("DIFFICULTY", True, (250, 250, 250))
+            DMENU_RECT = DMENU_TEXT.get_rect(center=(640, 100))
 
-                EASY_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 250),
-                                     text_input="EASY", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
-                NORMAL_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 400),
-                                       text_input="NORMAL", font=get_font(75), base_color="#d7fcd4",
-                                       hovering_color="White")
-                HARD_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 550),
-                                     text_input="HARD", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+            EASY_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 250),
+                                 text_input="EASY", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
+            NORMAL_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 400),
+                                   text_input="NORMAL", font=get_font(75), base_color="#d7fcd4",
+                                   hovering_color="White")
+            HARD_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 550),
+                                 text_input="HARD", font=get_font(75), base_color="#d7fcd4", hovering_color="White")
 
-                screen.blit(DMENU_TEXT, DMENU_RECT)
+            screen.blit(DMENU_TEXT, DMENU_RECT)
 
-                for button in [EASY_BUTTON, NORMAL_BUTTON, HARD_BUTTON]:
-                    button.changeColor(DMENU_MOUSE_POS)
-                    button.update(screen)
+            for button in [EASY_BUTTON, NORMAL_BUTTON, HARD_BUTTON]:
+                button.changeColor(DMENU_MOUSE_POS)
+                button.update(screen)
 
-                for event in pygame.event.get():
-                    if event.type == pygame.QUIT:
-                        pygame.quit()
-                        sys.exit()
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        if EASY_BUTTON.checkForInput(DMENU_MOUSE_POS):
-                            easy()
-                        if NORMAL_BUTTON.checkForInput(DMENU_MOUSE_POS):
-                            normal()
-                        if HARD_BUTTON.checkForInput(DMENU_MOUSE_POS):
-                            hard()
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if EASY_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                        easy()
+                    if NORMAL_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                        normal()
+                    if HARD_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                        hard()
 
-                pygame.display.update()
+            pygame.display.update()
 
-        difficulty_menu()
+    difficulty_menu()
 
 
 def easy():
@@ -141,6 +142,7 @@ def easy():
                     current_time_reset = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
+
         if current_time_reset % 200 == 0:
             circle.check_click()
             circle.randomize()
@@ -309,7 +311,7 @@ def hard():
                     current_time_reset = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
-        if current_time_reset % 60 == 0:
+        if current_time_reset % 50 == 0:
             circle.check_click()
             circle.randomize()
             current_time_reset = 1
@@ -354,7 +356,7 @@ def main_menu():
 
         MENU_MOUSE_POS = pygame.mouse.get_pos()
 
-        MENU_TEXT = get_font(100).render("MAIN MENU", True, "#b68f40")
+        MENU_TEXT = get_font(100).render("MAIN MENU", True, (250, 250, 250))
         MENU_RECT = MENU_TEXT.get_rect(center=(640, 100))
 
         PLAY_BUTTON = Button(image=pygame.image.load("button/button sign but cool.png"), pos=(640, 250),
@@ -390,14 +392,14 @@ def end_screen():
     while True:
         END_SCREEN_MOUSE_POS = pygame.mouse.get_pos()
 
-        screen.fill("white")
+        screen.blit(bg, (0, 0))
 
-        OPTIONS_TEXT = get_font(45).render("This is the END screen.", True, "Black")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(200, 260))
+        OPTIONS_TEXT = get_font(75).render("You lost LOSER!", True, "White")
+        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
         screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
 
         OPTIONS_BACK = Button(image=None, pos=(640, 460),
-                              text_input="BACK", font=get_font(75), base_color="Black", hovering_color="Green")
+                              text_input="BACK", font=get_font(75), base_color="White", hovering_color="Green")
 
         OPTIONS_BACK.changeColor(END_SCREEN_MOUSE_POS)
         OPTIONS_BACK.update(screen)
