@@ -12,8 +12,12 @@ clock = pygame.time.Clock()
 
 circle_Load = pygame.image.load("targets/working target.png")
 drawn_circle = pygame.transform.scale(circle_Load, (55, 55))
-count_mouse_click = 0
-hit = 0
+count_mouse_click_easy = 0
+count_mouse_click_normal = 0
+count_mouse_click_hard = 0
+hit_easy = 0
+hit_normal = 0
+hit_hard = 0
 screen = pygame.display.set_mode((width, height))
 screen.fill("White")
 bg = pygame.image.load("background/wood_surface_texture_118443_1920x1080.jpg").convert_alpha()
@@ -22,7 +26,9 @@ white = (255, 255, 255)
 blue = (0, 0, 128)
 pygame.font.get_fonts()
 current_time_reset = pygame.time.get_ticks()
-current_time = pygame.time.get_ticks()
+current_time_easy = pygame.time.get_ticks()
+current_time_normal = pygame.time.get_ticks()
+current_time_hard = pygame.time.get_ticks()
 
 
 def get_font(size):
@@ -80,16 +86,16 @@ def easy():
             self.randomize()
 
         def draw_circle(self):
-            global hit
-            global count_mouse_click
+            global hit_easy
+            global count_mouse_click_easy
             easy_accuracy = 0
-            if hit and count_mouse_click >= 1:
-                easy_accuracy = round(hit / count_mouse_click * 100, 1)
+            if hit_easy and count_mouse_click_easy >= 1:
+                easy_accuracy = round(hit_easy / count_mouse_click_easy * 100, 1)
             text = get_font(75).render(str(f"ACCURACY: {easy_accuracy}%"), True, white)
             text_rect = text.get_rect()
             text_rect.center = (width // 2, height // 14)
             screen.blit(text, text_rect)
-            if easy_accuracy <= 50 and current_time >= 199:
+            if easy_accuracy <= 50 and current_time_easy >= 199:
                 end_screen()
 
             screen.blit(drawn_circle, (self.x, self.y))
@@ -101,21 +107,21 @@ def easy():
 
         def check_click(self):
             mouse_pos = pygame.mouse.get_pos()
-            global hit
-            global count_mouse_click
+            global hit_easy
+            global count_mouse_click_easy
             global drawn_circle
             drawn_circle_rect = screen.blit(drawn_circle, (self.x, self.y))
             left_click = pygame.mouse.get_pressed()[0]
             circle_click = drawn_circle_rect
             if left_click and circle_click.collidepoint(mouse_pos):
-                count_mouse_click += 1
-                hit += 1
+                count_mouse_click_easy += 1
+                hit_easy += 1
                 self.__init__()
             else:
-                count_mouse_click += 1
+                count_mouse_click_easy += 1
 
-    global count_mouse_click
-    global current_time
+    global count_mouse_click_easy
+    global current_time_easy
     global current_time_reset
     circle = CIRCLE()
     while True:
@@ -130,7 +136,7 @@ def easy():
         PLAY_BACK.update(screen)
 
         current_time_reset += 1
-        current_time += 1
+        current_time_easy += 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -142,7 +148,6 @@ def easy():
                     current_time_reset = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
-
         if current_time_reset % 200 == 0:
             circle.check_click()
             circle.randomize()
@@ -165,16 +170,16 @@ def normal():
             self.randomize()
 
         def draw_circle(self):
-            global hit
-            global count_mouse_click
+            global hit_normal
+            global count_mouse_click_normal
             normal_accuracy = 0
-            if hit and count_mouse_click >= 1:
-                normal_accuracy = round(hit / count_mouse_click * 100, 1)
+            if hit_normal and count_mouse_click_easy >= 1:
+                normal_accuracy = round(hit_normal / count_mouse_click_easy * 100, 1)
             text = get_font(75).render(str(f"ACCURACY: {normal_accuracy}%"), True, white)
             text_rect = text.get_rect()
             text_rect.center = (width // 2, height // 14)
             screen.blit(text, text_rect)
-            if normal_accuracy <= 60 and current_time >= 299:
+            if normal_accuracy <= 60 and current_time_normal >= 299:
                 end_screen()
 
             screen.blit(drawn_circle, (self.x, self.y))
@@ -186,22 +191,22 @@ def normal():
 
         def check_click(self):
             mouse_pos = pygame.mouse.get_pos()
-            global hit
-            global count_mouse_click
+            global hit_normal
+            global count_mouse_click_normal
             global drawn_circle
             drawn_circle_rect = screen.blit(drawn_circle, (self.x, self.y))
             left_click = pygame.mouse.get_pressed()[0]
             circle_click = drawn_circle_rect
             if left_click and circle_click.collidepoint(mouse_pos):
-                count_mouse_click += 1
-                hit += 1
+                count_mouse_click_normal += 1
+                hit_normal += 1
                 self.__init__()
             else:
-                count_mouse_click += 1
+                count_mouse_click_normal += 1
 
-    global count_mouse_click
+    global count_mouse_click_normal
     global current_time_reset
-    global current_time
+    global current_time_normal
     circle = CIRCLE()
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
@@ -215,7 +220,7 @@ def normal():
         PLAY_BACK.update(screen)
 
         current_time_reset += 1
-        current_time += 1
+        current_time_normal += 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -249,16 +254,16 @@ def hard():
             self.randomize()
 
         def draw_circle(self):
-            global hit
-            global count_mouse_click
+            global hit_hard
+            global count_mouse_click_hard
             hard_accuracy = 0
-            if hit and count_mouse_click >= 1:
-                hard_accuracy = round(hit / count_mouse_click * 100, 1)
+            if hit_hard and count_mouse_click_hard >= 1:
+                hard_accuracy = round(hit_hard / count_mouse_click_hard * 100, 1)
             text = get_font(75).render(str(f"ACCURACY: {hard_accuracy}%"), True, white)
             text_rect = text.get_rect()
             text_rect.center = (width // 2, height // 14)
             screen.blit(text, text_rect)
-            if hard_accuracy <= 60 and current_time >= 399:
+            if hard_accuracy <= 60 and current_time_hard >= 399:
                 end_screen()
 
             screen.blit(drawn_circle, (self.x, self.y))
@@ -270,22 +275,22 @@ def hard():
 
         def check_click(self):
             mouse_pos = pygame.mouse.get_pos()
-            global hit
-            global count_mouse_click
+            global hit_hard
+            global count_mouse_click_hard
             global drawn_circle
             drawn_circle_rect = screen.blit(drawn_circle, (self.x, self.y))
             left_click = pygame.mouse.get_pressed()[0]
             circle_click = drawn_circle_rect
             if left_click and circle_click.collidepoint(mouse_pos):
-                count_mouse_click += 1
-                hit += 1
+                count_mouse_click_hard += 1
+                hit_hard += 1
                 self.__init__()
             else:
-                count_mouse_click += 1
+                count_mouse_click_hard += 1
 
-    global count_mouse_click
+    global count_mouse_click_hard
     global current_time_reset
-    global current_time
+    global current_time_hard
     circle = CIRCLE()
     while True:
         PLAY_MOUSE_POS = pygame.mouse.get_pos()
@@ -299,7 +304,7 @@ def hard():
         PLAY_BACK.update(screen)
 
         current_time_reset += 1
-        current_time += 1
+        current_time_hard += 1
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -311,7 +316,8 @@ def hard():
                     current_time_reset = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
-        if current_time_reset % 50 == 0:
+                    current_time = 1
+        if current_time_reset % 60 == 0:
             circle.check_click()
             circle.randomize()
             current_time_reset = 1
@@ -394,22 +400,22 @@ def end_screen():
 
         screen.blit(bg, (0, 0))
 
-        OPTIONS_TEXT = get_font(75).render("You lost LOSER!", True, "White")
-        OPTIONS_RECT = OPTIONS_TEXT.get_rect(center=(640, 260))
-        screen.blit(OPTIONS_TEXT, OPTIONS_RECT)
+        END_TEXT = get_font(75).render("You lost LOSER!", True, "White")
+        END_RECT = END_TEXT.get_rect(center=(640, 260))
+        screen.blit(END_TEXT, END_RECT)
 
-        OPTIONS_BACK = Button(image=None, pos=(640, 460),
+        END_BACK = Button(image=None, pos=(640, 460),
                               text_input="BACK", font=get_font(75), base_color="White", hovering_color="Green")
 
-        OPTIONS_BACK.changeColor(END_SCREEN_MOUSE_POS)
-        OPTIONS_BACK.update(screen)
+        END_BACK.changeColor(END_SCREEN_MOUSE_POS)
+        END_BACK.update(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if OPTIONS_BACK.checkForInput(END_SCREEN_MOUSE_POS):
+                if END_BACK.checkForInput(END_SCREEN_MOUSE_POS):
                     main_menu()
 
         pygame.display.update()
