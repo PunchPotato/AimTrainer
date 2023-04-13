@@ -261,7 +261,7 @@ def normal():
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
                     main_menu()
                     current_time_normal = 1
-        if current_time_reset_normal % 140 == 0:
+        if current_time_reset_normal % 80 == 0:
             circle.check_click()
             circle.randomize()
             current_time_reset_normal = 1
@@ -358,7 +358,7 @@ def hard():
                     main_menu()
                     current_time_hard = 1
                     exit(hard())
-        if current_time_reset_hard % 60 == 0:
+        if current_time_reset_hard % 50 == 0:
             circle.check_click()
             circle.randomize()
             current_time_reset_hard = 1
@@ -461,7 +461,6 @@ def end_screen_easy():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if END_BACK.checkForInput(END_SCREEN_MOUSE_POS):
                     main_menu()
-                    exit(end_screen_easy())
 
         pygame.display.update()
 
