@@ -37,6 +37,8 @@ randomize_counter_hard = 0
 easy_accuracy = 0
 normal_accuracy = 0
 hard_accuracy = 0
+ding_sound = pygame.mixer.Sound('sound/snd_fragment_retrievewav-14728.mp3')
+click_sound = pygame.mixer.Sound('sound/click-21156.mp3')
 
 
 def get_font(size):
@@ -73,10 +75,13 @@ def play():
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if EASY_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                        pygame.mixer.Sound.play(click_sound)
                         easy()
                     if NORMAL_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                        pygame.mixer.Sound.play(click_sound)
                         normal()
                     if HARD_BUTTON.checkForInput(DMENU_MOUSE_POS):
+                        pygame.mixer.Sound.play(click_sound)
                         hard()
 
             pygame.display.update()
@@ -130,6 +135,7 @@ def easy():
             if left_click and circle_click.collidepoint(mouse_pos):
                 count_mouse_click_easy += 1
                 hit_easy += 1
+                pygame.mixer.Sound.play(ding_sound)
                 self.__init__()
             else:
                 count_mouse_click_easy += 1
@@ -165,6 +171,7 @@ def easy():
                     circle.randomize()
                     current_time_reset_easy = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
                     main_menu()
         if current_time_reset_easy % 200 == 0:
             circle.check_click()
@@ -224,6 +231,7 @@ def normal():
             if left_click and circle_click.collidepoint(mouse_pos):
                 count_mouse_click_normal += 1
                 hit_normal += 1
+                pygame.mixer.Sound.play(ding_sound)
                 self.__init__()
             else:
                 count_mouse_click_normal += 1
@@ -259,6 +267,7 @@ def normal():
                     circle.randomize()
                     current_time_reset_normal = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
                     main_menu()
                     current_time_normal = 1
         if current_time_reset_normal % 80 == 0:
@@ -320,6 +329,7 @@ def hard():
             if left_click and circle_click.collidepoint(mouse_pos):
                 count_mouse_click_hard += 1
                 hit_hard += 1
+                pygame.mixer.Sound.play(ding_sound)
                 self.__init__()
             else:
                 count_mouse_click_hard += 1
@@ -355,6 +365,7 @@ def hard():
                     circle.randomize()
                     current_time_reset_hard = 1
                 if PLAY_BACK.checkForInput(PLAY_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
                     main_menu()
                     current_time_hard = 1
                     exit(hard())
@@ -392,6 +403,7 @@ def options():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if OPTIONS_BACK.checkForInput(OPTIONS_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
                     main_menu()
 
         pygame.display.update()
@@ -425,10 +437,13 @@ def main_menu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if PLAY_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
                     play()
                 if OPTIONS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
                     options()
                 if QUIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
                     pygame.quit()
                     sys.exit()
 
@@ -460,6 +475,8 @@ def end_screen_easy():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if END_BACK.checkForInput(END_SCREEN_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
+                    reset_game_easy()
                     main_menu()
 
         pygame.display.update()
@@ -490,8 +507,9 @@ def end_screen_normal():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if END_BACK.checkForInput(END_SCREEN_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
+                    reset_game_normal()
                     main_menu()
-                    exit(end_screen_easy())
 
         pygame.display.update()
 
@@ -521,8 +539,9 @@ def end_screen_hard():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if END_BACK.checkForInput(END_SCREEN_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
+                    reset_game_hard()
                     main_menu()
-                    exit(end_screen_easy())
 
         pygame.display.update()
 
@@ -552,6 +571,8 @@ def win_screen_easy():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if WIN_BACK.checkForInput(WIN_SCREEN_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
+                    reset_game_easy()
                     main_menu()
 
         pygame.display.update()
@@ -582,6 +603,8 @@ def win_screen_normal():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if WIN_BACK.checkForInput(WIN_SCREEN_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
+                    reset_game_normal()
                     main_menu()
 
         pygame.display.update()
@@ -612,9 +635,44 @@ def win_screen_hard():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if WIN_BACK.checkForInput(WIN_SCREEN_MOUSE_POS):
+                    pygame.mixer.Sound.play(click_sound)
+                    reset_game_hard()
                     main_menu()
 
         pygame.display.update()
+
+
+def reset_game_easy():
+    global easy_accuracy, current_time_easy, current_time_reset_easy, hit_easy, randomize_counter_easy,\
+        count_mouse_click_easy
+    easy_accuracy = 0
+    current_time_reset_easy = 0
+    hit_easy = 0
+    randomize_counter_easy = 0
+    current_time_easy = 0
+    count_mouse_click_easy = 0
+
+
+def reset_game_normal():
+    global normal_accuracy, current_time_normal, current_time_reset_normal, hit_normal, randomize_counter_normal,\
+        count_mouse_click_normal
+    normal_accuracy = 0
+    current_time_reset_normal = 0
+    hit_normal = 0
+    randomize_counter_normal = 0
+    current_time_normal = 0
+    count_mouse_click_normal = 0
+
+
+def reset_game_hard():
+    global hard_accuracy, current_time_hard, current_time_reset_hard, hit_hard, randomize_counter_hard,\
+        count_mouse_click_hard
+    hard_accuracy = 0
+    current_time_reset_hard = 0
+    hit_hard = 0
+    randomize_counter_hard = 0
+    current_time_hard = 0
+    count_mouse_click_hard = 0
 
 
 main_menu()
